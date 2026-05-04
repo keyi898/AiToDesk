@@ -17,16 +17,15 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20'
-        cache: 'npm'
     
     - name: Install frontend deps
       run: |
         cd frontend
-        npm install
+        npm install --no-package-lock
         cd ..
     
     - name: Install root deps
-      run: npm install
+      run: npm install --no-package-lock
     
     - name: Install Go
       uses: actions/setup-go@v5
