@@ -1,4 +1,5 @@
 <template>
+  <AnnouncementBar />
   <NConfigProvider :theme="themeMode == 'light' ? lightTheme : darkTheme" :theme-overrides="themeOverrides">
     <router-view></router-view>
   </NConfigProvider>
@@ -9,6 +10,7 @@
 
 <script setup lang="ts">
 import { getGlobalStore } from "./stores/global";
+import AnnouncementBar from "./components/AnnouncementBar.vue";
 import { openSoftSettings } from "@/views/SoftSettings/controller/index"
 
 import useIndexStore, { getIndexStore } from './views/Home/store';
