@@ -1467,4 +1467,8 @@
     "src": "请输入6位验证码",
     "dst": "Please enter the 6-digit code"
   },
+  "下一步": {
+    "src": "下一步",
+    "dst": "Next"
+  },
 }
