@@ -1,4 +1,4 @@
-name: Build AiToDesk Windows
+name: Build aitodesk Windows
 
 on:
   push:
