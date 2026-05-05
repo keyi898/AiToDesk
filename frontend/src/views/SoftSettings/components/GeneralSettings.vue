@@ -52,29 +52,8 @@
                 </div>
             </n-list-item>
             <n-list-item>
-                <div class="flex justify-between items-center">
-                    <span>Github</span>
-                    <n-button-group>
-                        <n-button @click="toStar">
-                            <template #icon>
-                                <i class="i-common:star w-20 h-20"></i>
-                            </template>
-                            star
-                        </n-button>
-
-                        <n-button @click="toIssue">
-                            <template #icon>
-                                <i class="i-common:issues w-20 h-20"></i>
-                            </template>
-                            {{ $t("反馈") }}
-                        </n-button>
-                    </n-button-group>
-                </div>
-            </n-list-item>
-            <n-list-item>
                 <div class="flex justify-center gap-2.5 text-[#5c5c5c]">
                     <span>{{ $t("当前版本") }}: v{{ version }}</span>
-                    <span @click="jumpToTutorial" class="underline text-green-6 cursor-pointer">{{ $t("文档教程") }}</span>
                 </div>
             </n-list-item>
         </n-list>
@@ -88,10 +67,7 @@ import { getChatContentStoreData } from "../../ChatContent/store";
 
 import {
     getDataSavePath,
-    jumpToTutorial,
     changeDataSavePath,
-    toStar,
-    toIssue,
     guideChange,
     setSearch,
     changeThemeMode,

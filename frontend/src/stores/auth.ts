@@ -29,11 +29,11 @@ export const useAuthStore = defineStore("auth", () => {
     return data;
   }
 
-  async function register(userEmail: string, code: string, password: string) {
+  async function register(userEmail: string, password: string) {
     const res = await fetch(`${API_BASE}/api/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({ email: userEmail, code, password }),
+      body: new URLSearchParams({ email: userEmail, password }),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "注册失败");

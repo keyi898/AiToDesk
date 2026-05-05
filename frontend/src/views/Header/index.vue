@@ -10,10 +10,6 @@
                 @addModelChoose="addModelChoose" />
         </div>
         <div class="right-tools">
-            <n-button type="success" @click="shareShow = true">
-                <template #icon><i class="i-common:share w-16 h-16"></i></template>
-                {{ $t("分享") }}
-            </n-button>
         </div>
     </div>
 
@@ -34,7 +30,7 @@ import { getRandomStringFromSet } from "@/utils/tools";
 
 const { t: $t } = useI18n()
 
-const { shareShow, currentModel, multipleModelList } = getHeaderStoreData()
+const { currentModel, multipleModelList } = getHeaderStoreData()
 const { isFold, siderWidth, } = getSiderStoreData()
 const { activeKnowledge, knowledgeSiderWidth, } = getKnowledgeStoreData()
 const { currentSupplierName } = getThirdPartyApiStoreData()
