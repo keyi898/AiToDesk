@@ -45,20 +45,20 @@
 
         <!-- Step 1: Enter email -->
         <div v-if="step === 1" class="form-area">
-          <h2 class="form-title">{{ mode === \'login\' ? $t("登录") : $t("注册账号") }}</h2>
+          <h2 class="form-title">{{ mode === 'login' ? $t("登录") : $t("注册账号") }}</h2>
           <n-input v-model:value="form.email" type="text" :placeholder="$t("邮箱地址")" class="mb-10" @keydown.enter="handleFirstNext" />
-          <n-button v-if="mode === \'register\'" type="default" block :loading="sending" @click="handleSendCode">
+          <n-button v-if="mode === 'register'" type="default" block :loading="sending" @click="handleSendCode">
             {{ sending ? $t("发送中...") : $t("发送验证码") }}
           </n-button>
           <n-button v-else type="primary" block @click="handleFirstNext">{{ $t("下一步") }}</n-button>
           <div class="switch-mode">
-            {{ mode === \'login\' ? $t("还没有账号？") : $t("已有账号？") }}
-            <span class="link" @click="mode = mode === \'login\' ? \'register\' : \'login\'; step = 1; resetForm()">{{ mode === \'login\' ? $t("立即注册") : $t("去登录") }}</span>
+            {{ mode === 'login' ? $t("还没有账号？") : $t("已有账号？") }}
+            <span class="link" @click="mode = mode === 'login' ? 'register' : 'login'; step = 1; resetForm()">{{ mode === 'login' ? $t("立即注册") : $t("去登录") }}</span>
           </div>
         </div>
 
         <!-- Step 2: Register - enter code + password -->
-        <div v-else-if="step === 2 && mode === \'register\'" class="form-area">
+        <div v-else-if="step === 2 && mode === 'register'" class="form-area">
           <h2 class="form-title">{{ $t("输入验证码") }}</h2>
           <p class="sub-title">{{ $t("验证码已发送至") }} {{ form.email }}</p>
           <n-input v-model:value="form.code" :placeholder="$t("6位验证码")" class="mb-10" maxlength="6" @keydown.enter="handleRegister" />
@@ -66,18 +66,18 @@
           <n-input v-model:value="form.confirm" type="password" :placeholder="$t("确认密码")" class="mb-10" @keydown.enter="handleRegister" />
           <n-button type="primary" block :loading="loading" @click="handleRegister">{{ $t("注册") }}</n-button>
           <div class="switch-mode">
-            <span class="link" @click="step = 1; form.code = \'\'; form.password = \'\'; form.confirm = \'\'">{{ $t("重新输入邮箱") }}</span>
+            <span class="link" @click="step = 1; form.code = ''; form.password = ''; form.confirm = ''">{{ $t("重新输入邮箱") }}</span>
           </div>
         </div>
 
         <!-- Step 2: Login - enter password -->
-        <div v-else-if="step === 2 && mode === \'login\'" class="form-area">
+        <div v-else-if="step === 2 && mode === 'login'" class="form-area">
           <h2 class="form-title">{{ $t("输入密码") }}</h2>
           <p class="sub-title">{{ form.email }}</p>
           <n-input v-model:value="form.password" type="password" :placeholder="$t("密码")" class="mb-10" @keydown.enter="handleLogin" />
           <n-button type="primary" block :loading="loading" @click="handleLogin">{{ $t("登录") }}</n-button>
           <div class="switch-mode">
-            <span class="link" @click="step = 1; form.password = \'\'">{{ $t("重新输入邮箱") }}</span>
+            <span class="link" @click="step = 1; form.password = ''">{{ $t("重新输入邮箱") }}</span>
           </div>
         </div>
 
