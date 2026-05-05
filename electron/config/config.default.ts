@@ -7,7 +7,7 @@ const config: () => AppConfig = () => {
     openDevTools: false,
     singleLock: true,
     windowsOption: {
-      title: 'AiToDesk',
+      title: 'aitdesk',
       width: 1440,
       height: 900,
       minWidth: 500,
