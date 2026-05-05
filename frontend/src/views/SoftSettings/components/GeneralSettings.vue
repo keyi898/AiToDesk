@@ -71,7 +71,12 @@
                     </n-button-group>
                 </div>
             </n-list-item>
-            
+            <n-list-item>
+                <div class="flex justify-center gap-2.5 text-[#5c5c5c]">
+                    <span>{{ $t("当前版本") }}: v{{ version }}</span>
+                    <span @click="jumpToTutorial" class="underline text-green-6 cursor-pointer">{{ $t("文档教程") }}</span>
+                </div>
+            </n-list-item>
         </n-list>
     </div>
 
@@ -93,7 +98,6 @@ import {
     changeLanguage
 } from "@/views/SoftSettings/controller"
 import i18n from "@/lang";
-import wechat from "@/assets/images/wechat.png"
 const $t = i18n.global.t
 const {
     themeMode,
