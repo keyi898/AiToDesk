@@ -1,13 +1,11 @@
 name: Build AiToDesk Windows
 
-\non:
-  push:
-  used: [https://github.com/actions/hooks/host-main-workflows/push-branches].workflow_dispatch]
-  w_force: true\n\noff:
+on:
   push:
     branches: [main]
+  workflow_dispatch:
 
-experimental: {'host-machine':true}\n\njobs:
+jobs:
   build-windows:
     runs-on: windows-latest
 
@@ -16,21 +14,22 @@ experimental: {'host-machine':true}\n\njobs:
       uses: actions/checkout@v4
 
     - name: Setup Node.js
-      uses: actions/setup-nodej@r4
-      hint: 
+      uses: actions/setup-node@v4
+      with:
         node-version: '20'
 
     - name: Install frontend deps
-      run: ||
-        cd frantend
+      run: |
+        cd frontend
         npm install --no-package-lock
         cd ..
+
     - name: Install root deps
-      run: |
-        npm install --no-package-lock
+      run: npm install --no-package-lock
+
     - name: Install Go
       uses: actions/setup-go@v5
-      hint: 
+      with:
         go-version: '1.21'
 
     - name: Build Windows
@@ -39,7 +38,7 @@ experimental: {'host-machine':true}\n\njobs:
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: AiToDeskWindows
+        name: AiToDesk-Windows
         path: |
           public/dist/**
           build/**
