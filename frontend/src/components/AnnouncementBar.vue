@@ -1,5 +1,5 @@
 <template>
-  <n-modal v-model:show="showAnn" preset="card" :title="currentAnn?.title || \'公告\'" style="width: 480px;">
+  <n-modal v-model:show="showAnn" preset="card" :title="currentAnn?.title || '公告'" style="width: 480px;">
     <div class="ann-content">{{ currentAnn?.content }}</div>
     <template #footer>
       <div class="ann-footer">
