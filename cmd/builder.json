@@ -3,7 +3,7 @@
   "appId": "com.bt.aitodesk",
   "copyright": "Guangdong Baota Safety Technology Co., Ltd.",
   "directories": {
-    "output": "out"
+    "output": "."
   },
   "asar": true,
   "files": [
