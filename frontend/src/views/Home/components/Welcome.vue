@@ -5,7 +5,7 @@
             <div class="welcome-content">
                 <div class="logo-wrapper">
                     <NImage :src="logo" class="logo" width="100px" />
-                    <span class="brand">AiToDesk</span>
+                    <span class="brand">aitdesk</span>
                     <span class="slogan">{{ $t("简单好用的AI助手") }}</span>
                 </div>
                 <div class="desc-wrapper">
