@@ -1339,4 +1339,72 @@
         "src": "正在嵌入中,请稍后...",
         "dst": "Embedding in progress, please wait"
     }
+  "登录": {
+    "src": "登录",
+    "dst": "Login"
+  },
+  "注册": {
+    "src": "注册",
+    "dst": "Register"
+  },
+  "用户名": {
+    "src": "用户名",
+    "dst": "Username"
+  },
+  "密码": {
+    "src": "密码",
+    "dst": "Password"
+  },
+  "确认密码": {
+    "src": "确认密码",
+    "dst": "Confirm Password"
+  },
+  "没有账号？": {
+    "src": "没有账号？",
+    "dst": "No account?"
+  },
+  "立即注册": {
+    "src": "立即注册",
+    "dst": "Register now"
+  },
+  "已有账号？": {
+    "src": "已有账号？",
+    "dst": "Have an account?"
+  },
+  "去登录": {
+    "src": "去登录",
+    "dst": "Login here"
+  },
+  "用户名至少3位": {
+    "src": "用户名至少3位",
+    "dst": "Username must be at least 3 characters"
+  },
+  "密码至少6位": {
+    "src": "密码至少6位",
+    "dst": "Password must be at least 6 characters"
+  },
+  "两次密码不一致": {
+    "src": "两次密码不一致",
+    "dst": "Passwords do not match"
+  },
+  "请输入用户名和密码": {
+    "src": "请输入用户名和密码",
+    "dst": "Please enter username and password"
+  },
+  "登录成功": {
+    "src": "登录成功",
+    "dst": "Login successful"
+  },
+  "注册成功，已自动登录": {
+    "src": "注册成功，已自动登录",
+    "dst": "Registration successful, logged in automatically"
+  },
+  "登录失败": {
+    "src": "登录失败",
+    "dst": "Login failed"
+  },
+  "注册失败": {
+    "src": "注册失败",
+    "dst": "Registration failed"
+  },
 }
