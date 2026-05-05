@@ -52,7 +52,6 @@ docker run -d \
 ```bash
 mkdir -p aitodesk
 cd aitodesk
-wget https://cnb.cool/keyi898/aitodesk/-/git/raw/server/docker-compose.yml
 # Run
 docker compose up -d
 # or
