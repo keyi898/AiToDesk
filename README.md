@@ -1,12 +1,12 @@
 # aitodesk
-![GitHub License](https://img.shields.io/github/license/keyi898/AiToDesk)
-![GitHub Release](https://img.shields.io/github/v/release/keyi898/AiToDesk)
-![GitHub stars](https://img.shields.io/github/stars/keyi898/AiToDesk?style=social)
-![GitHub forks](https://img.shields.io/github/forks/keyi898/AiToDesk?style=social)
-![GitHub issues](https://img.shields.io/github/issues/keyi898/AiToDesk)
-![GitHub last commit](https://img.shields.io/github/last-commit/keyi898/AiToDesk)
-![GitHub all releases](https://img.shields.io/github/downloads/keyi898/AiToDesk/total)
-![Docker Pulls](https://img.shields.io/docker/pulls/keyi898/AiToDesk)
+![GitHub License](https://img.shields.io/github/license/keyi898/aitodesk)
+![GitHub Release](https://img.shields.io/github/v/release/keyi898/aitodesk)
+![GitHub stars](https://img.shields.io/github/stars/keyi898/aitodesk?style=social)
+![GitHub forks](https://img.shields.io/github/forks/keyi898/aitodesk?style=social)
+![GitHub issues](https://img.shields.io/github/issues/keyi898/aitodesk)
+![GitHub last commit](https://img.shields.io/github/last-commit/keyi898/aitodesk)
+![GitHub all releases](https://img.shields.io/github/downloads/keyi898/aitodesk/total)
+![Docker Pulls](https://img.shields.io/docker/pulls/keyi898/aitodesk)
 
 
 [简体中文](README.zh_cn.md) | [Official Website](https://www.aitodesk.com/) | [Documentation](https://docs.aitodesk.com/)
@@ -49,15 +49,14 @@ A user-friendly AI assistant software that supports local AI models, APIs, and k
 ### Client Version（MacOS, Windows） 
 
 - [Download from official website](https://www.aitodesk.com/)   
-- [Download from CNB](https://cnb.cool/keyi898/AiToDesk/-/releases/)  
-- [Download from Github](https://github.com/keyi898/AiToDesk/releases)  
+- [Download from Github](https://github.com/keyi898/aitodesk/releases)  
 
 ### Server Version
 
 #### Docker Run
 ```bash 
 docker run -d \
-  --name node \
+  --name aitodesk-node \
   -v $(pwd)/data:/data \
   -v $(pwd)/uploads:/uploads \
   -v $(pwd)/logs:/logs \
@@ -65,14 +64,14 @@ docker run -d \
   -v $(pwd)/sys_data:/sys_data \
   -p 7071:7071 \
   -w /aitodesk \
-  keyi898/AiToDesk
+  keyi898/aitodesk
 ```
 
 #### Docker Compose
 ```bash
 mkdir -p aitodesk
 cd aitodesk
-wget https://cnb.cool/keyi898/AiToDesk/-/git/raw/server/docker-compose.yml
+wget https://cnb.cool/keyi898/aitodesk/-/git/raw/server/docker-compose.yml
 # Run
 docker compose up -d
 # or
@@ -80,7 +79,7 @@ docker-compose up -d
 ``` 
 ## Build
 ```bash
-git clone https://github.com/keyi898/AiToDesk.git
+git clone https://github.com/keyi898/aitodesk.git
 cd aitodesk
 # For macOS users, please remove the `@rollup/rollup-win32-x64-msvc` dependency in [package.json](http://_vscodecontentref_/0)
 cd frontend
@@ -92,7 +91,7 @@ yarn dev
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=keyi898/AiToDesk&type=Date)](https://www.star-history.com/#keyi898/AiToDesk&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=keyi898/aitodesk&type=Date)](https://www.star-history.com/#keyi898/aitodesk&Date)
 
 ## Sponsor
 - CDN acceleration and security protection for this project are sponsored by Tencent EdgeOne.
