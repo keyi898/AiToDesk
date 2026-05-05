@@ -8,7 +8,6 @@
 ![GitHub all releases](https://img.shields.io/github/downloads/keyi898/aitodesk/total)
 ![Docker Pulls](https://img.shields.io/docker/pulls/keyi898/aitodesk)
 
-[简体中文](README.zh_cn.md) | [Official Website](https://www.aitodesk.com/) | [Documentation](https://docs.aitodesk.com/)
 
 aitodesk是一款简单好用的AI助手，支持知识库、模型API、分享、联网搜索、智能体，它还在飞快成长中。
 
@@ -41,7 +40,6 @@ A user-friendly AI assistant software that supports local AI models, APIs, and k
 
 ### Client Version（MacOS, Windows） 
 
-- [Download from official website](https://www.aitodesk.com/)   
 - [Download from Github](https://github.com/keyi898/aitodesk/releases)  
 
 ### Server Version
