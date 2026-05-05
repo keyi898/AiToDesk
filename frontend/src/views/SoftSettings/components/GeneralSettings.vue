@@ -71,12 +71,7 @@
                     </n-button-group>
                 </div>
             </n-list-item>
-            <n-list-item>
-                <div class="flex justify-center flex-col items-center gap-2.5">
-                    <span>{{ $t("加入AiToDesk交流群") }}</span>
-                    <n-image :src="wechat" width="100px" />
-                </div>
-            </n-list-item>
+            
             <n-list-item>
                 <div class="flex justify-center gap-2.5 text-[#5c5c5c]">
                     <span>{{ $t("当前版本") }}: v{{ version }}</span>
