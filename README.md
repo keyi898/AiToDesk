@@ -8,7 +8,6 @@
 ![GitHub all releases](https://img.shields.io/github/downloads/keyi898/aitodesk/total)
 ![Docker Pulls](https://img.shields.io/docker/pulls/keyi898/aitodesk)
 
-
 [简体中文](README.zh_cn.md) | [Official Website](https://www.aitodesk.com/) | [Documentation](https://docs.aitodesk.com/)
 
 aitodesk是一款简单好用的AI助手，支持知识库、模型API、分享、联网搜索、智能体，它还在飞快成长中。
@@ -22,22 +21,16 @@ A user-friendly AI assistant software that supports local AI models, APIs, and k
 ## ✅ Core Features  
 
 - One-click deployment of local AI models and mainstream model APIs
-![Local model](.github/assets/img/1_en.png)
 - Local knowledge base
-![Knowledge base](.github/assets/img/3_en.png)
 - Intelligent agent creation
-![Intelligent agent](.github/assets/img/4_en.png)
   
 - Can be shared online for others to use
-![Sharing](.github/assets/img/5_en.png)
 
 - Supports web search
-![Web search](.github/assets/img/6_en.png)
 
 - Supports server-side deployment 
 
 - MCP Client
-![MCP Client](.github/assets/img/7_en.png)
 
 - Simultaneous conversations with multiple models in a single session (coming soon)  
 
