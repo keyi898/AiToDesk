@@ -60,9 +60,6 @@ docker run -d \
 
 #### Docker Compose
 ```bash
-mkdir -p aitodesk
-cd aitodesk
-wget https://cnb.cool/keyi898/aitodesk/-/git/raw/server/docker-compose.yml
 # Run
 docker compose up -d
 # or
@@ -70,8 +67,6 @@ docker-compose up -d
 ``` 
 ## Build
 ```bash
-git clone https://github.com/keyi898/aitodesk.git
-cd aitodesk
 # For macOS users, please remove the `@rollup/rollup-win32-x64-msvc` dependency in [package.json](http://_vscodecontentref_/0)
 cd frontend
 yarn
@@ -79,7 +74,6 @@ cd ..
 yarn
 yarn dev
 ```
-
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=keyi898/aitodesk&type=Date)](https://www.star-history.com/#keyi898/aitodesk&Date)
