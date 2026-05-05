@@ -1407,4 +1407,64 @@
     "src": "注册失败",
     "dst": "Registration failed"
   },
+  "注册账号": {
+    "src": "注册账号",
+    "dst": "Create Account"
+  },
+  "还没有账号？": {
+    "src": "还没有账号？",
+    "dst": "No account yet?"
+  },
+  "邮箱地址": {
+    "src": "邮箱地址",
+    "dst": "Email address"
+  },
+  "发送验证码": {
+    "src": "发送验证码",
+    "dst": "Send verification code"
+  },
+  "发送中...": {
+    "src": "发送中...",
+    "dst": "Sending..."
+  },
+  "输入验证码": {
+    "src": "输入验证码",
+    "dst": "Enter verification code"
+  },
+  "验证码已发送至": {
+    "src": "验证码已发送至",
+    "dst": "Code sent to"
+  },
+  "6位验证码": {
+    "src": "6位验证码",
+    "dst": "6-digit code"
+  },
+  "设置密码（至少6位）": {
+    "src": "设置密码（至少6位）",
+    "dst": "Set password (min 6 characters)"
+  },
+  "确认密码": {
+    "src": "确认密码",
+    "dst": "Confirm password"
+  },
+  "重新输入邮箱": {
+    "src": "重新输入邮箱",
+    "dst": "Re-enter email"
+  },
+  "输入密码": {
+    "src": "输入密码",
+    "dst": "Enter password"
+  },
+  "请输入有效的邮箱地址": {
+    "src": "请输入有效的邮箱地址",
+    "dst": "Please enter a valid email"
+  },
+  "两次密码不一致": {
+    "src": "两次密码不一致",
+    "dst": "Passwords do not match"
+  },
+  "请输入6位验证码": {
+    "src": "请输入6位验证码",
+    "dst": "Please enter the 6-digit code"
+  },
 }
