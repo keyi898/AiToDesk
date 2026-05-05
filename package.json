@@ -2,7 +2,7 @@
   "name": "aitodesk",
   "version": "1.2.4",
   "description": "Simple and easy-to-use AI big model deployment and usage software",
-  "productName": "AiToDesk",
+  "productName": "aitodesk",
   "main": "./public/electron/main.js",
   "type": "commonjs",
   "scripts": {
@@ -34,7 +34,7 @@
     "debug-electron": "cross-env DEBUG=ee-* ee-bin dev --serve=electron",
     "debug-move": "ee-bin move --flag=frontend_dist"
   },
-  "repository": "https://github.com/aitodesk/aitodesk",
+  "repository": "https://github.com/keyi898/AiToDesk",
   "keywords": [
     "AiToDesk",
     "baota",
