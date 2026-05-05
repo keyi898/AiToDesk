@@ -45,4 +45,5 @@ jobs:
           public/dist/**
           build/**
           out/**
+          *.exe
         compression-level: 0
