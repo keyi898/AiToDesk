@@ -14,7 +14,7 @@ jobs:
           docker run --rm \
             -v ${{ github.workspace }}:${{ github.workspace }} \
             -w ${{ github.workspace }} \
-            -e PLUGIN_TARGET_URL="https://cnb.cool/aitodesk/AiToDesk.git" \
+            -e PLUGIN_TARGET_URL="https://cnb.cool/aitodesk/aitodesk.git" \
             -e PLUGIN_AUTH_TYPE="https" \
             -e PLUGIN_USERNAME="cnb" \
             -e PLUGIN_PASSWORD=${{ secrets.CNB_GIT_PASSWORD }} \
