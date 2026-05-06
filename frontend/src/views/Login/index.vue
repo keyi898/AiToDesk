@@ -69,12 +69,14 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, computed } from "vue";
+import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { useAuthStore } from "@/stores/auth";
 import { message } from "@/utils/naive-tools";
 
 const { t: $t } = useI18n();
 const auth = useAuthStore();
+const router = useRouter();
 
 const API_BASE = "http://154.40.49.200:3000";
 const mode = ref<"login" | "register">("login");
@@ -145,7 +147,7 @@ async function handleSubmit() {
     try {
       await auth.register(form.email, form.password);
       message.success($t("注册成功"));
-      window.location.href = "/#/";
+      router.push('/');
     } catch (e: any) {
       errorMsg.value = e.message || $t("注册失败");
     } finally {
@@ -156,7 +158,7 @@ async function handleSubmit() {
     try {
       await auth.login(form.email, form.password);
       message.success($t("登录成功"));
-      window.location.href = "/#/";
+      router.push('/');
     } catch (e: any) {
       errorMsg.value = e.message || $t("登录失败");
     } finally {
