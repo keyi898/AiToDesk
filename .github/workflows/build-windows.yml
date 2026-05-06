@@ -1,4 +1,4 @@
-name: Build aitodesk Windows
+name: Build aitdesk Windows
 
 on:
   push:
@@ -32,15 +32,30 @@ jobs:
       with:
         go-version: '1.21'
 
+    - name: Debug frontend build
+      run: |
+        Write-Host "=== frontend/dist BEFORE build ==="
+        if (Test-Path frontend/dist) { Get-ChildItem -Recurse frontend/dist | Select-Object FullName } else { Write-Host "frontend/dist does not exist" }
+        Write-Host "=== public/dist BEFORE build ==="
+        if (Test-Path public/dist) { Get-ChildItem -Recurse public/dist | Select-Object FullName } else { Write-Host "public/dist does not exist" }
+
     - name: Build Windows
-      run: npm run build-w
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        npm run build-w 2>&1 | Tee-Object -FilePath build.log
+
+    - name: Debug after build
+      run: |
+        Write-Host "=== frontend/dist AFTER build ==="
+        if (Test-Path frontend/dist) { Get-ChildItem -Recurse frontend/dist | Select-Object FullName } else { Write-Host "frontend/dist does not exist" }
+        Write-Host "=== public/dist AFTER build ==="
+        if (Test-Path public/dist) { Get-ChildItem -Recurse public/dist | Select-Object FullName } else { Write-Host "public/dist does not exist" }
+        Write-Host "=== build.log tail ==="
+        Get-Content build.log | Select-Object -Last 30
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: aitodesk-Windows
+        name: aitdesk-Windows
         path: |
           public/dist/**
           build/**
