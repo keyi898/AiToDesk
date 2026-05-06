@@ -14,8 +14,6 @@
                 </NButton>
             </div>
             <div class="flex justify-center w-100%">
-                <span class="cursor-pointer underline text-green-5" @click="localModelTutorial">
-                    {{ $t('查看知识库教程') }}
                 </span>
             </div>
         </div>
