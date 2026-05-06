@@ -147,7 +147,7 @@ async function handleSubmit() {
     try {
       await auth.register(form.email, form.password);
       message.success($t("注册成功"));
-      router.push('/');
+      window.location.href = '/#/?t=' + Date.now();
     } catch (e: any) {
       errorMsg.value = e.message || $t("注册失败");
     } finally {
@@ -158,7 +158,7 @@ async function handleSubmit() {
     try {
       await auth.login(form.email, form.password);
       message.success($t("登录成功"));
-      router.push('/');
+      window.location.href = '/#/?t=' + Date.now();
     } catch (e: any) {
       errorMsg.value = e.message || $t("登录失败");
     } finally {
