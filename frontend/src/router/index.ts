@@ -20,12 +20,11 @@ const router = createRouter({
 })
 
 // Navigation guard - check auth before each route
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to) => {
   if (to.meta.requiresAuth) {
     const saved = localStorage.getItem("aitdesk_auth");
     if (!saved) {
-      next({ name: 'login' });
-      return;
+      return { name: 'login' };
     }
     try {
       const data = JSON.parse(saved);
@@ -33,15 +32,13 @@ router.beforeEach(async (to, from, next) => {
         headers: { "Authorization": `Bearer ${data.token}` },
       });
       if (!res.ok) {
-        next({ name: 'login' });
-        return;
+        return { name: 'login' };
       }
     } catch {
-      next({ name: 'login' });
-      return;
+      return { name: 'login' };
     }
   }
-  next();
+  return true;
 });
 
 export default router
