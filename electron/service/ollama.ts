@@ -608,6 +608,21 @@ class OllamaService {
         ReconnectOllamaDownload = false;
         // 根据不同操作系统确定下载 URL 和文件路径
         const { downloadUrl, downloadFile } = await this.getOllamaDownloadInfo();
+
+        if (!downloadFile) {
+            return false;
+        }
+
+        // 如果 downloadUrl 为空，说明是内置安装包，跳过下载直接安装
+        if (!downloadUrl) {
+            logger.info('Installing bundled Ollama: ' + downloadFile);
+            const installed = await this.installOllamaAfterDownload(downloadFile);
+            if (installed) {
+                logger.info(pub.lang('安装完成'));
+            }
+            return installed;
+        }
+
         // 创建写入流
         const writer = fs.createWriteStream(downloadFile,{flags:'a'});
         try {
@@ -806,16 +821,35 @@ class OllamaService {
      * @returns {downloadUrl: string, downloadFile: string } 包含下载 URL 和文件路径的对象
      */
     private async getOllamaDownloadInfo(): Promise<{ downloadUrl: string , downloadFile: string }> {
-        // 优先使用服务器配置的下载地址
+        // 1. 优先使用服务器配置的下载地址
         const serverUrl = await this.getDownloadUrlFromServer();
         
+        // 2. 检查是否有内置的安装包
+        const bundledDir = path.resolve(pub.get_resource_path(), 'ollama');
+        
         if (pub.is_windows()) {
+            const bundledPath = path.resolve(bundledDir, 'OllamaSetup.exe');
+            if (fs.existsSync(bundledPath)) {
+                logger.info('Using bundled OllamaSetup.exe');
+                return {
+                    downloadUrl: '',  // 空 = 本地文件
+                    downloadFile: bundledPath
+                };
+            }
             const url = serverUrl || 'https://github.com/ollama/ollama/releases/latest/download/OllamaSetup.exe';
             return {
                 downloadUrl: url,
                 downloadFile: path.resolve(pub.get_resource_path(), 'OllamaSetup.exe')
             };
         } else if (pub.is_mac()) {
+            const bundledPath = path.resolve(bundledDir, 'Ollama-darwin.zip');
+            if (fs.existsSync(bundledPath)) {
+                logger.info('Using bundled Ollama-darwin.zip');
+                return {
+                    downloadUrl: '',
+                    downloadFile: bundledPath
+                };
+            }
             const url = serverUrl || 'https://github.com/ollama/ollama/releases/latest/download/Ollama-darwin.zip';
             return {
                 downloadUrl: url,
@@ -823,6 +857,14 @@ class OllamaService {
             };
         } else if (pub.is_linux()) {
             let nodeUrl = await selectFastestNode()
+            const bundledPath = path.resolve(bundledDir, 'ollama-linux-amd64.tgz');
+            if (fs.existsSync(bundledPath)) {
+                logger.info('Using bundled ollama-linux-amd64.tgz');
+                return {
+                    downloadUrl: '',
+                    downloadFile: bundledPath
+                };
+            }
             const url = serverUrl || `${nodeUrl}/ollama/ollama-linux-amd64.tgz`;
             return {
                 downloadUrl: url,
