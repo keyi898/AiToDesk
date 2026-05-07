@@ -69,7 +69,6 @@ class OllamaService {
         }
         return '';
     }
-    }
 
     private getMirrorEnv(): string {
         const mirror = pub.C('ollama_mirror');
