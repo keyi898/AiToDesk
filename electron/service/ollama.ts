@@ -34,8 +34,27 @@ let OllamaDownloadSpeed = {
 class OllamaService {
     /**
      * 获取 Ollama 镜像代理地址（国内加速用）
-     * 从配置 ollama_mirror 中读取，用户可在设置页面配置
+     * 优先从服务器同步，其次从本地配置读取
      */
+    private async syncMirrorFromServer(): Promise<string> {
+        try {
+            const res = await pub.httpRequest('http://154.40.49.200:3000/api/config/public', {
+                timeout: 3000,
+                method: 'GET',
+                json: true
+            });
+            if (res.statusCode === 200 && res.body && res.body.ollama_mirror) {
+                const serverMirror = res.body.ollama_mirror;
+                // 保存到本地，后续直接读取
+                pub.C('ollama_mirror', serverMirror);
+                return serverMirror;
+            }
+        } catch(e) {
+            logger.warn('Sync mirror from server failed:', e?.message || e);
+        }
+        return '';
+    }
+
     private getMirrorEnv(): string {
         const mirror = pub.C('ollama_mirror');
         return mirror || '';
@@ -141,7 +160,9 @@ class OllamaService {
      * @returns {Promise<boolean>} 若 Ollama 启动成功则返回 true，否则返回 false
      */
     async start(): Promise<boolean> {
-        const mirror = this.getMirrorEnv();
+        // 先尝试从服务器同步镜像配置
+        const serverMirror = await this.syncMirrorFromServer();
+        const mirror = serverMirror || this.getMirrorEnv();
         const execOpts: any = { env: { ...process.env } };
         if (mirror) {
             execOpts.env.HTTPS_PROXY = mirror;
