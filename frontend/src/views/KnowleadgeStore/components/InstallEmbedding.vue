@@ -14,7 +14,6 @@
                 </NButton>
             </div>
             <div class="flex justify-center w-100%">
-                </span>
             </div>
         </div>
     </n-modal>
