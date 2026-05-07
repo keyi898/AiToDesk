@@ -7,11 +7,9 @@ import type { AgentItemDto } from "@/views/Home/dto"
 import { NButton, type DataTableColumns } from "naive-ui"
 import i18n from "@/lang";
 
-import { knowledgeIsClose } from "@/views/KnowleadgeStore/controller"
 import { getSettingsStoreData } from "../store"
 import { getHeaderStoreData } from "@/views/Header/store"
 import { getThirdPartyApiStoreData } from "@/views/ThirdPartyApi/store"
-import { getKnowledgeStoreData } from "@/views/KnowleadgeStore/store"
 
 const $t = i18n.global.t
 
@@ -300,44 +298,6 @@ export async function setOllamaUrl() {
     }
 }
 
-
-/**
- * @description 获取嵌入模型列表
- */
-export async function getEmbeddingModels() {
-    const { embeddingModelsList, createKnowledgeFormData } = getKnowledgeStoreData()
-    try {
-        const res = await post("/rag/get_embedding_models")
-        embeddingModelsList.value = Object.values(res.message).flat()
-        if (embeddingModelsList.value.length) {
-            let findRes = embeddingModelsList.value.find((item: any) => {
-                if (item.model.includes("bge-m3") && item.title.includes("ollama")) {
-                    return item
-                }
-                return undefined
-            })
-
-            if (findRes === undefined) {
-                findRes = embeddingModelsList.value.find((item: any) => {
-                    if (item.model.includes("bge-m3")) {
-                        return item
-                    }
-                    return undefined
-                })
-            }
-
-            if (findRes) {
-                createKnowledgeFormData.value.enbeddingModel = findRes.model
-                createKnowledgeFormData.value.supplierName = findRes.supplierName
-            } else {
-                createKnowledgeFormData.value.enbeddingModel = embeddingModelsList.value[0].model
-                createKnowledgeFormData.value.supplierName = embeddingModelsList.value[0].supplierName
-            }
-        }
-    } catch (error) {
-        sendLog(error as Error)
-    }
-}
 
 /**
  * @description 安装模型

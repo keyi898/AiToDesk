@@ -4,7 +4,7 @@ import { NButton } from 'naive-ui'
 import { getRandomStringFromSet } from "@/utils/tools"
 import { sendLog } from "@/views/Home/controller"
 import type { ThirdPartyApiServiceItem, AddThirdPartySupplierMode } from '@/views/Home/dto';
-import { getEmbeddingModels, get_model_list } from "@/views/Settings/controller"
+import { get_model_list } from "@/views/Settings/controller"
 import i18n from "@/lang";
 
 import { getThirdPartyApiStoreData } from "../store"
@@ -74,7 +74,6 @@ export async function addModels() {
             ...addModelFormData.value,
             capability: JSON.stringify(addModelFormData.value.capability)
         })
-        await getEmbeddingModels()
         await get_model_list()
     } catch (error) {
         sendLog(error as Error)
@@ -92,7 +91,6 @@ export async function editModels() {
             supplierName: currentChooseApi.value?.supplierName,
             capability: JSON.stringify(addModelFormData.value.capability),
         });
-        await getEmbeddingModels();
         await get_model_list();
     } catch (error) {
         sendLog(error as Error);
@@ -124,7 +122,6 @@ export async function removeSupplier(supplierName: string) {
     try {
         await post("/model/remove_supplier", { supplierName })
         await getSupplierList()
-        await getEmbeddingModels()
         await get_model_list()
     } catch (error) {
         sendLog(error as Error)
@@ -157,7 +154,6 @@ export async function setModelStatus(modelName: string, status: string) {
             modelName,
             status
         })
-        await getEmbeddingModels()
         await get_model_list()
     } catch (error) {
         sendLog(error as Error)
@@ -188,7 +184,6 @@ export async function setSupplierStatus(supplierName: string, status: boolean) {
         } else {
             message.success($t("已禁用模型该服务商"))
         }
-        await getEmbeddingModels()
         await get_model_list()
     } catch (error) {
         sendLog(error as Error)
