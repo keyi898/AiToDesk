@@ -3,3 +3,9 @@ lang.py
 yarn.lock
 node_modules
 package-lock.json
+
+# Ollama bundled installers (downloaded at build time, NOT committed)
+build/extraResources/ollama/*.exe
+build/extraResources/ollama/*.zip
+build/extraResources/ollama/*.tgz
+!build/extraResources/ollama/README.md

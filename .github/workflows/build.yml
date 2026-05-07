@@ -53,6 +53,22 @@ jobs:
       - name: Rebuild native modules
         run: npm run re-sqlite
 
+      - name: Download OllamaSetup.exe (bundle)
+        shell: pwsh
+        run: |
+          $dir = "build\extraResources\ollama"
+          New-Item -ItemType Directory -Force -Path $dir | Out-Null
+          $url = "https://github.com/ollama/ollama/releases/latest/download/OllamaSetup.exe"
+          $out = "$dir\OllamaSetup.exe"
+          if (-not (Test-Path $out)) {
+            Write-Host "⬇️  Downloading OllamaSetup.exe from $url"
+            Invoke-WebRequest -Uri $url -OutFile $out -UserAgent "AiToDesk-Build"
+            $size = (Get-Item $out).Length
+            Write-Host "✅ Downloaded: $([math]::Round($size/1MB, 1)) MB"
+          } else {
+            Write-Host "⏭️  OllamaSetup.exe already exists, skipping download"
+          }
+
       - name: Package Windows installer
         run: npm run build-w
 
@@ -73,6 +89,18 @@ jobs:
       - run: npm install
       - run: cd frontend && npm install && cd ..
       - run: npm run build-frontend
+      - name: Download Ollama-darwin.zip (bundle)
+        shell: bash
+        run: |
+          mkdir -p build/extraResources/ollama
+          if [ ! -f build/extraResources/ollama/Ollama-darwin.zip ]; then
+            echo "⬇️  Downloading Ollama-darwin.zip..."
+            curl -L -o build/extraResources/ollama/Ollama-darwin.zip \
+              "https://github.com/ollama/ollama/releases/latest/download/Ollama-darwin.zip"
+            echo "✅ Downloaded"
+          else
+            echo "⏭️  Already exists"
+          fi
       - run: npm run build-m
 
   build-linux:
@@ -86,4 +114,16 @@ jobs:
       - run: npm install
       - run: cd frontend && npm install && cd ..
       - run: npm run build-frontend
+      - name: Download ollama-linux-amd64.tgz (bundle)
+        shell: bash
+        run: |
+          mkdir -p build/extraResources/ollama
+          if [ ! -f build/extraResources/ollama/ollama-linux-amd64.tgz ]; then
+            echo "⬇️  Downloading ollama-linux-amd64.tgz..."
+            curl -L -o build/extraResources/ollama/ollama-linux-amd64.tgz \
+              "https://github.com/ollama/ollama/releases/latest/download/ollama-linux-amd64.tgz"
+            echo "✅ Downloaded"
+          else
+            echo "⏭️  Already exists"
+          fi
       - run: npm run build-l
