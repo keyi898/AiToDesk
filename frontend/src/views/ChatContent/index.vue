@@ -50,7 +50,7 @@
     <!-- 分享弹窗 -->
     <Share />
 
-
+</template>
 
 <script setup lang="tsx">
 import ChooseModel from '../Header/components/ChooseModel.vue';
