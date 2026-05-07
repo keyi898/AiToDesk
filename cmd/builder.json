@@ -17,6 +17,9 @@
     "!go/",
     "!python/"
   ],
+  "extraMetadata": {
+    "main": "public/electron/main.js"
+  },
   "extraResources": {
     "from": "build/extraResources/",
     "to": "extraResources"
