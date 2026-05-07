@@ -10,7 +10,6 @@ import i18n from "@/lang";
 
 import { getSiderStoreData } from "@/views/Sider/store"
 import { getChatContentStoreData } from "@/views/ChatContent/store"
-import { getKnowledgeStoreData } from "@/views/KnowleadgeStore/store"
 import { getAgentStoreData } from "@/views/Agent/store"
 import { getChatToolsStoreData } from "../store"
 import { getHeaderStoreData } from "@/views/Header/store"
@@ -35,7 +34,6 @@ export async function sendChat(params: ChatParams, multiModelList?: Array<Multip
     const { currentContextId, } = getSiderStoreData()
     const { targetNet, } = getSoftSettingsStoreData()
     const { currentTalkingChatId, isInChat, chatHistory, } = getChatContentStoreData()
-    const { activeKnowledgeForChat, } = getKnowledgeStoreData()
     const { netActive, temp_chat, mcpListChoosed } = getChatToolsStoreData()
     const { currentSupplierName } = getThirdPartyApiStoreData()
     const { compare_id } = getChatToolsStoreData()
@@ -84,7 +82,6 @@ export async function sendChat(params: ChatParams, multiModelList?: Array<Multip
                 supplierName: currentSupplierName.value,
                 context_id: currentContextId.value,
                 search: netActive.value ? targetNet.value : "",
-                rag_list: JSON.stringify(activeKnowledgeForChat.value),
                 temp_chat: String(temp_chat.value),
                 mcp_servers: mcpListChoosed.value,
                 ...params
@@ -105,9 +102,8 @@ export async function sendChat(params: ChatParams, multiModelList?: Array<Multip
                     parameters: multiModelList![i].parameters,
                     supplierName: multiModelList![i].supplierName,
                     context_id: currentContextId.value,
-                    search: netActive.value ? targetNet.value : "",
-                    rag_list: JSON.stringify(activeKnowledgeForChat.value),
-                    temp_chat: String(temp_chat.value),
+                search: netActive.value ? targetNet.value : "",
+                temp_chat: String(temp_chat.value),
                     mcp_servers: mcpListChoosed.value,
                     compare_id: compare_id.value,
                     ...params

@@ -2,7 +2,7 @@ import { search } from '../search_engines/search';
 import { pub } from '../class/public';
 
 /**
- * rag controller 类，负责管理知识库的相关操作
+ * search controller 类
  * @class
  */
 class SearchController {

@@ -1,9 +1,7 @@
 import { nextTick } from "vue"
 import { post } from "@/api"
 import { sendLog } from "@/views/Home/controller"
-import { knowledgeIsClose, modifyRag, removeRagConfirm, optimizeTable } from "@/views/KnowleadgeStore/controller"
 import { getSupplierList } from "@/views/ThirdPartyApi/controller/index"
-import { singleActive } from "@/views/KnowleadgeStore/controller"
 
 import { eventBUS } from "@/views/Home/utils/tools"
 import { message, delConfirm } from "@/utils/naive-tools"
@@ -14,7 +12,6 @@ import { getHeaderStoreData } from "@/views/Header/store"
 import { getThirdPartyApiStoreData } from "@/views/ThirdPartyApi/store"
 import { getSoftSettingsStoreData } from "@/views/SoftSettings/store"
 import { getChatToolsStoreData } from "@/views/ChatTools/store"
-import { getKnowledgeStoreData } from "@/views/KnowleadgeStore/store"
 import { getAgentStoreData } from "@/views/Agent/store"
 import { getChatContentStoreData } from "@/views/ChatContent/store"
 const $t = i18n.global.t
@@ -26,7 +23,6 @@ export async function get_chat_list() {
     const { currentModel, } = getHeaderStoreData()
     const { currentSupplierName, } = getThirdPartyApiStoreData()
     const { netActive, } = getChatToolsStoreData()
-    const { activeKnowledgeForChat, } = getKnowledgeStoreData()
     const { currentChatAgent } = getAgentStoreData()
 
     try {
@@ -50,7 +46,6 @@ export async function get_chat_list() {
                 }
                 currentSupplierName.value = chatList.value[0].supplierName!
                 chatList.value[0].search_type ? netActive.value = true : netActive.value = false
-                activeKnowledgeForChat.value = chatList.value[0].rag_list ? chatList.value[0].rag_list : []
                 getChatInfo(currentContextId.value)
             }
         }
@@ -67,7 +62,6 @@ export function createNewComu() {
     const { currentContextId, currentChatTitle, } = getSiderStoreData()
     const { chatHistory, } = getChatContentStoreData()
     const { chatForAgent, currentAgent } = getAgentStoreData()
-    const { activeKnowledgeForChat, activeKnowledge, activeKnowledgeDto, } = getKnowledgeStoreData()
     const { netActive, } = getChatToolsStoreData()
 
 
@@ -75,15 +69,11 @@ export function createNewComu() {
         currentContextId.value = ""
         currentChatTitle.value = $t("新对话")
         chatHistory.value = new Map()
-        activeKnowledgeForChat.value = []
         netActive.value = false
-        activeKnowledge.value = ""
-        activeKnowledgeDto.value = null
         // 判断是否当前为智能体对话
         if (chatForAgent.value) {
             currentChatTitle.value = currentAgent.value!.agent_name
         }
-        knowledgeIsClose()
     } catch (error) {
         sendLog(error as Error)
     }
@@ -213,7 +203,6 @@ export async function handleChoose(e: MouseEvent, chat: ChatItemInfo) {
     const { userScrollSelf, } = getChatContentStoreData()
     const { currentModel, currentModelDto } = getHeaderStoreData()
     const { currentSupplierName } = getThirdPartyApiStoreData()
-    const { activeKnowledgeForChat } = getKnowledgeStoreData()
     const { netActive } = getChatToolsStoreData()
     if (chat.agent_info) {
         currentChatAgent.value = chat.agent_info
@@ -239,9 +228,7 @@ export async function handleChoose(e: MouseEvent, chat: ChatItemInfo) {
             supplierName: chat.supplierName!
         }
         getChatInfo(currentContextId.value)
-        singleActive("chat", chat.context_id)
     }
-    activeKnowledgeForChat.value = chat.rag_list ? chat.rag_list : []
     chat.search_type ? netActive.value = true : netActive.value = false
 }
 
@@ -287,18 +274,6 @@ export function doChatDel(contextId: string) {
     chatRemoveConfirm.value = true
 }
 
-/***
- * @description 知识库操作
- */
-export function dealPopOperation(val: string, knowledge: any) {
-    if (val == "delChat") {
-        removeRagConfirm(knowledge.ragName)
-    } else if (val == "modifyTitle") {
-        modifyRag(knowledge)
-    } else if (val == "optimization") {
-        optimizeTable(knowledge.ragName)
-    }
-}
 
 
 /**

@@ -6,7 +6,6 @@ export type ChatItemInfo = {
     model: string
     parameters: string,
     title: string,
-    rag_list?: string[],
     search_type?: string,
     supplierName?: string
 }
@@ -51,39 +50,6 @@ export type AnswerInfo = {
 }
 // 对话信息实体
 export type ChatInfo = Map<MultipeQuestionDto, AnswerInfo>
-// 知识库类型实体
-export type KnowledgeDocumentInfo = {
-    ragDesc: string
-    ragName: string,
-    embeddingModel: string,
-    embeddingModelExist: boolean,
-    errorMsg: string,
-    keywordWeight: number,
-    maxRecall: number,
-    queryRewrite: number,
-    ragCreateTime: number,
-    recallAccuracy: number,
-    rerankModel: string,
-    resultReordering: number,
-    searchStrategy: number,
-    supplierName: string,
-    vectorWeight: number,
-}
-// 当前选中知识库类型实体
-export type ActiveKnowledgeDto = KnowledgeDocumentInfo
-
-// 当前知识库的文档实体（单个）
-export type ActiveKnowledgeDocDto = {
-    doc_abstract: string
-    doc_file: string
-    doc_id: string
-    doc_keywords: string[]
-    doc_name: string
-    doc_rag: string
-    is_parsed: number
-    md_file: string
-    update_time: number
-}
 // 第三方api服务商实体
 export type ThirdPartyApiServiceItem = {
     apiKey: string
@@ -147,30 +113,6 @@ export type AgentItemDto = {
     icon: string,
     create_time: number,
     is_system: boolean,
-}
-
-//  创建知识库表单实体
-export type CreateKnowledgeFormData = {
-    ragName: string,
-    ragDesc: string,
-    supplierName?: string,
-    embeddingModel: string | string[],
-    searchStrategy?: number,
-    maxRecall?: number,
-    recallAccuracy?: number,
-    resultReordering?: number,
-    rerankModel?: string,
-    queryRewrite?: number,
-    vectorWeight?: number,
-    keywordWeight?: number,
-}
-
-// 测试文档分片参数实体
-export type TestDocChunkParams = {
-    filename: string,
-    chunkSize: number,
-    overlapSize: number,
-    separators: string[],
 }
 
 // MCP服务器列表实体

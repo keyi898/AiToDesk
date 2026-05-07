@@ -1060,24 +1060,7 @@ class Public {
         return totalSize;
     }
 
-    /**
-     * @name 获取向量数据库路径
-     * @returns {string} 向量数据库路径
-     */
-    get_db_path():string{
-        return path.join(pub.get_data_path(), 'rag', 'vector_db');
-    }
 
-    /**
-     * @name 获取知识库路径
-     * @returns {string} 知识库路径
-     */
-    get_rag_path():string{
-        // 知识库保存路径
-        return this.get_data_path() + "/rag";
-    }
-
-}
 
 const pub = new Public();
 export{ pub,Public };

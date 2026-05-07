@@ -3,7 +3,6 @@ import { ChatService, ChatContext, ChatHistory,ModelInfo } from '../service/chat
 import { pub } from '../class/public';
 import { logger } from 'ee-core/log';
 import { getPromptForWeb } from '../search_engines/search';
-import { Rag } from '../rag/rag';
 import { ModelService, GetSupplierModels, getModelContextLength ,setModelUsedTotal,getModelUsedTotalList} from '../service/model';
 import path from 'path';
 import { agentService } from '../service/agent';
@@ -161,12 +160,10 @@ class ChatController {
      * @param {string} args.parameters - 模型参数
      * @param {string} args.user_content - 用户输入的内容
      * @param {string} args.search - 搜索类型
-     * @param {string} args.rag_list - RAG列表
      * @param {string} args.regenerate_id - 重新生成的ID
      * @param {string} args.images - 图片列表
      * @param {string} args.doc_files - 文件列表
      * @param {string} args.temp_chat - 临时对话标志
-     * @param {any} args.rag_results - RAG结果列表
      * @param {any} args.search_results - 搜索结果列表
      * @param {string} args.compare_id - 对比ID
      * @param {any} event - 事件对象，用于处理HTTP响应
@@ -178,10 +175,8 @@ class ChatController {
         model: string;
         parameters?: string;
         user_content: string,
-        rag_results: any[],
         search_results?: any[],
         search?: string,
-        rag_list?: string,
         regenerate_id?: string,
         images?: string,
         doc_files?: string,

@@ -3,10 +3,7 @@
         <n-layout-sider :width="siderWidth" class="layout-sider">
             <Sider />
         </n-layout-sider>
-        <n-layout-sider :class="['layout-sider', { 'no-border': knowledgeSiderWidth == 0 }]"
-            :width="knowledgeSiderWidth">
-            <KnowledgeStore />
-        </n-layout-sider>
+
         <n-layout>
             <n-layout-header class="layout-header">
                 <Header />
@@ -56,7 +53,6 @@ import SoftSettings from "@/views/SoftSettings/index.vue";
 import Sider from "../Sider/index.vue";
 import Header from "@/views/Header/index.vue";
 import ChatContent from "@/views/ChatContent/index.vue";
-import KnowledgeStore from "@/views/KnowleadgeStore/index.vue";
 import Welcome from "./components/Welcome.vue";
 import ThirdPartyApi from "@/views/ThirdPartyApi/index.vue";
 import { get_languages } from "@/views/SoftSettings/controller"
@@ -64,11 +60,9 @@ import { useI18n } from "vue-i18n";
 import { computed } from "vue";
 import { getByteUnit } from "@/utils/tools"
 import { getSiderStoreData } from "../Sider/store/index.ts";
-import { getKnowledgeStoreData } from "../KnowleadgeStore/store/index.ts";
 import { getSoftSettingsStoreData } from "../SoftSettings/store/index.ts";
 
 const { siderWidth, } = getSiderStoreData()
-const { knowledgeSiderWidth, } = getKnowledgeStoreData()
 const { dataPathChangeCheckShow, dataPathChangeStatusValues } = getSoftSettingsStoreData()
 const { t: $t } = useI18n()
 /**

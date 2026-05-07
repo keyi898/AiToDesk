@@ -4,7 +4,6 @@ import * as path from 'path';
 import { agentService } from './agent';
 import { ModelService, GetSupplierModels, getModelContextLength, setModelUsedTotal, getModelUsedTotalList } from '../service/model';
 import { getPromptForWeb } from '../search_engines/search';
-import { Rag } from '../rag/rag';
 import { Stream } from 'stream';
 import { MCPClient } from './mcp_client';
 import { ChatContext, ChatHistory, ChatService, ModelInfo } from './chat';
@@ -77,33 +76,6 @@ const saveChatHistory = async (uuid: string, resUUID: string, chatHistoryRes: Ch
     }
     const chatService = new ChatService();
     await chatService.set_chat_history(uuid, resUUID, chatHistoryRes);
-}
-
-// 提取处理RAG的函数
-const handleRag = async (args: any, chatService: ChatService, history: any[], chatHistoryRes: ChatHistory, contextInfo: any, supplierName: string, modelStr: string, user_content: string, rag_results: any[]) => {
-    if (args.rag_list) {
-        const ragList = JSON.parse(args.rag_list);
-        await chatService.update_chat_config(args.context_id, "rag_list", ragList);
-        if (ragList.length > 0) {
-            const { userPrompt, systemPrompt, searchResultList, query } = await new Rag().searchAndSuggest(supplierName, modelStr, user_content, history[history.length - 1].doc_files, contextInfo.agent_name, rag_results, ragList);
-            chatHistoryRes.search_query = query;
-            chatHistoryRes.search_type = "[RAG]:" + ragList.join(",");
-            chatHistoryRes.search_result = searchResultList;
-            if (searchResultList.length > 0 && systemPrompt) {
-                history.unshift({
-                    role: 'system',
-                    content: systemPrompt
-                });
-            }
-            if (userPrompt) {
-                history[history.length - 1].content = userPrompt;
-            }
-            if (searchResultList.length > 0) {
-                args.search = '';
-            }
-        }
-    }
-    return args.search;
 }
 
 // 提取处理搜索的函数
@@ -320,12 +292,10 @@ export class ToChatService {
      * @param {string} args.parameters - 模型参数
      * @param {string} args.user_content - 用户输入的内容
      * @param {string} args.search - 搜索类型
-     * @param {string} args.rag_list - RAG列表
      * @param {string} args.regenerate_id - 重新生成的ID
      * @param {string} args.images - 图片列表
      * @param {string} args.doc_files - 文件列表
      * @param {string} args.temp_chat - 临时对话标志
-     * @param {any} args.rag_results - RAG结果列表
      * @param {any} args.search_results - 搜索结果列表
      * @param {string} args.compare_id - 对比ID
      * @param {any} event - 事件对象，用于处理HTTP响应
@@ -337,10 +307,8 @@ export class ToChatService {
         model: string;
         parameters?: string;
         user_content: string,
-        rag_results: any[],
         search_results?: any[],
         search?: string,
-        rag_list?: string,
         regenerate_id?: string,
         images?: string,
         doc_files?: string,
@@ -348,7 +316,7 @@ export class ToChatService {
         compare_id?: string,
         mcp_servers?: string[],
     }, event: any): Promise<any> {
-        let { context_id: uuid, model: modelName, parameters, user_content, search, regenerate_id, supplierName, images, doc_files, temp_chat, rag_results, search_results, compare_id, mcp_servers } = args;
+        let { context_id: uuid, model: modelName, parameters, user_content, search, regenerate_id, supplierName, images, doc_files, temp_chat, search_results, compare_id, mcp_servers } = args;
         if (!supplierName) {
             supplierName = 'ollama';
         }
@@ -443,7 +411,6 @@ export class ToChatService {
         await chatService.save_chat_history(uuid, chatHistory, chatHistoryRes, modelInfo.contextLength, regenerate_id);
         await chatService.update_chat_config(uuid, "search_type", search);
         let isSystemPrompt = false;
-        search = await handleRag(args, chatService, history, chatHistoryRes, contextInfo, supplierName, modelStr, user_content, rag_results);
         await handleSearch(args, chatService, history, chatHistoryRes, contextInfo, supplierName, modelStr, user_content, search_results);
         const letHistory = history[history.length - 1];
         if (!isSystemPrompt && history[0].role !== 'system' && letHistory.content === user_content) {

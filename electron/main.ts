@@ -27,14 +27,6 @@ setTimeout(() => {
     let socket = shareService.connectToCloudServer(shareIdPrefix);
     shareService.startReconnect(socket,shareIdPrefix);
 
-    // RAG后台任务
-    const { RagTask } = require('./rag/rag_task');
-    let ragTaskObj = new RagTask()
-    ragTaskObj.parseTask()
-
-    // 创建索引
-    ragTaskObj.switchToCosineIndex()
-
     // 同步MCP服务器列表
     mcpService.sync_cloud_mcp()
     

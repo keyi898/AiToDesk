@@ -16,17 +16,14 @@ import { openSoftSettings } from "@/views/SoftSettings/controller/index"
 import useIndexStore, { getIndexStore } from './views/Home/store';
 import { storeToRefs } from 'pinia';
 import { NConfigProvider, darkTheme, lightTheme } from 'naive-ui';
-import { ragStatus, } from '@/views/KnowleadgeStore/controller/index';
 import { getVersion } from "@/views/Home/controller"
 import storage from './utils/storage';
 import { onMounted } from 'vue';
 import { getSoftSettingsStoreData } from './views/SoftSettings/store';
-import { getKnowledgeStoreData } from './views/KnowleadgeStore/store';
 import { getChatContentStoreData } from './views/ChatContent/store';
 
 
 const { themeMode, targetNet } = getSoftSettingsStoreData()
-const { knowledgeDragable, } = getKnowledgeStoreData()
 const { welcomeShow, } = getIndexStore()
 const { guideActive, } = getChatContentStoreData()
 const { modalTitleBg } = getGlobalStore()
@@ -34,8 +31,6 @@ const { modalTitleBg } = getGlobalStore()
 // 临时代码——打开设置弹窗
 // openSoftSettings()
 
-// 检测知识库状态
-ragStatus()
 // 获取版本号
 getVersion()
 
@@ -61,16 +56,6 @@ onMounted(() => {
 
 <style lang="scss">
 @use "@/assets/base.scss";
-
-.drag-upload {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 10000;
-}
 
 // 弹窗统一header样式
 .n-modal .n-card-header {

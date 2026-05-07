@@ -28,16 +28,12 @@ const useHeaderStore = defineStore("headerStore", () => {
   const shareModel = ref("")
   // 分享的智能体
   const shareAgent = ref(null)
-  // 分享时选择的知识库
-  const knowledges = ref([])
   // 修改分享标题
   const modify_title = ref("")
   // 修改分享模型
   const modify_shareModel = ref("")
   // 要修改的分享id
   const modify_share_id = ref("")
-  // 修改分享时选择的知识库
-  const modify_knowledges = ref([])
   // 修改分享时选择的智能体
   const modify_shareAgent = ref(null)
   // 删除分享id
@@ -82,11 +78,9 @@ const useHeaderStore = defineStore("headerStore", () => {
     title,
     shareModel,
     shareAgent,
-    knowledges,
     modify_title,
     modify_shareModel,
     modify_share_id,
-    modify_knowledges,
     del_share_id,
     chooseModelVisible,
     modelListSource,

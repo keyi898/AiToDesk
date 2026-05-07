@@ -21,7 +21,7 @@ export async function getShareList() {
 /**
  * @description 创建分享
  */
-export async function createShare(title: string, modelDto: any, ragList: string[], shareAgent: string | null) {
+export async function createShare(title: string, modelDto: any, shareAgent: string | null) {
 	let parameters = 'otherApi';
 	let model = '';
 	// 判断当前为ollama还是三方模型，从而改变参数
@@ -39,7 +39,6 @@ export async function createShare(title: string, modelDto: any, ragList: string[
 			title: title ? title : $t('新分享'),
 			agent_name: shareAgent,
 			supplierName: modelDto.supplierName,
-			rag_list: JSON.stringify(ragList),
 		});
 		getShareList();
 		message.success($t('创建分享成功'));
@@ -51,7 +50,7 @@ export async function createShare(title: string, modelDto: any, ragList: string[
 /**
  * @description 修改分享
  */
-export async function modifyShare(share_id: string, modelDto: any, title: string, ragList: string[], shareAgent: string | null) {
+export async function modifyShare(share_id: string, modelDto: any, title: string, shareAgent: string | null) {
     const { modifyShareShow } = getHeaderStoreData()
     // const [model, parameters] = modelName.split(":")
     let parameters = "otherApi"
@@ -69,7 +68,6 @@ export async function modifyShare(share_id: string, modelDto: any, title: string
 					model,
 					parameters,
 					supplierName: modelDto.supplierName,
-					rag_list: JSON.stringify(ragList),
 					title,
 					agent_name: shareAgent,
 				});
@@ -131,7 +129,7 @@ export function closeShare() {
  * @description 修改分享
  */
 export function openModifyShare(row: any) {
-    const { modifyShareShow, modify_title, modify_shareModel, modify_knowledges, modify_share_id, modify_shareAgent } = getHeaderStoreData();
+    const { modifyShareShow, modify_title, modify_shareModel, modify_share_id, modify_shareAgent } = getHeaderStoreData();
     modifyShareShow.value = true
     modify_title.value = row.title
     if (row.supplierName == "ollama") {
@@ -139,7 +137,6 @@ export function openModifyShare(row: any) {
     } else {
         modify_shareModel.value = row.model
     }
-    modify_knowledges.value = row.rag_list
 		modify_share_id.value = row.share_id
 		modify_shareAgent.value = row.agent_name || null
 

@@ -12,11 +12,6 @@
                             <NInput style="width:150px" v-model:value="title" :placeholder="$t('请输入名称')" />
                         </NFormItem>
                         <NFormItem>
-                            <NSelect :options="knowledgeList" label-field="ragName" value-field="ragName"
-                                v-model:value="knowledges" multiple :ellipsis-tag-popover-props="{ trigger: 'hover' }"
-                                max-tag-count="responsive" style="width: 150px;" :placeholder="$t('请选择知识库')" />
-                        </NFormItem>
-                        <NFormItem>
                             <NSelect :options="myAgentList" label-field="agent_title" value-field="agent_name" v-model:value="shareAgent" style="width: 120px;" :placeholder="$t('智能体')" />
                         </NFormItem>
 												<NFormItem>
@@ -24,7 +19,7 @@
 																:render-option="renderOption" />
 												</NFormItem>
                         <NFormItem>
-                            <NButton type="success" @click="createShare(title, shareModelDto, knowledges,shareAgent)">{{ $t("分享")
+                            <NButton type="success" @click="createShare(title, shareModelDto, shareAgent)">{{ $t("分享")
                             }}
                             </NButton>
                         </NFormItem>
@@ -51,12 +46,6 @@
                             <NInput style="width:150px" v-model:value="modify_title" :placeholder="$t('请输入名称')" />
                         </NFormItem>
                         <NFormItem>
-                            <NSelect :options="knowledgeList" label-field="ragName" value-field="ragName"
-                                v-model:value="modify_knowledges" multiple
-                                :ellipsis-tag-popover-props="{ trigger: 'hover' }" max-tag-count="responsive"
-                                style="width: 150px;" :placeholder="$t('请选择知识库')" />
-                        </NFormItem>
-												<NFormItem>
                             <NSelect :options="myAgentList" label-field="agent_title" value-field="agent_name" v-model:value="modify_shareAgent" style="width: 120px;" :placeholder="$t('智能体')" />
                         </NFormItem>
                         <NFormItem>
@@ -69,7 +58,7 @@
             <div class="flex justify-end items-center gap-5">
                 <NButton type="default" @click="closeModifyShare">{{ $t("取消") }}</NButton>
                 <NButton type="success"
-                    @click="modifyShare(modify_share_id, modify_shareModel_dto, modify_title, modify_knowledges,modify_shareAgent)">{{
+                    @click="modifyShare(modify_share_id, modify_shareModel_dto, modify_title, modify_shareAgent)">{{
                         $t("确认")
                     }}
                 </NButton>
@@ -105,7 +94,6 @@ import { computed, ref, watch } from "vue";
 import { createShare, getShareList, modifyShare, delShare,closeShare,openModifyShare,closeModifyShare } from "@/views/Header/controller";
 
 import { getHeaderStoreData } from "../store";
-import { getKnowledgeStoreData } from "@/views/KnowleadgeStore/store";
 import { getAgentStoreData } from '@/views/Agent/store';
 const {
     shareShow,
@@ -117,17 +105,12 @@ const {
 		shareModel,
 		shareAgent,
     title,
-    knowledges,
     modify_title,
     modify_shareModel,
     modify_share_id,
-		modify_knowledges,
 		modify_shareAgent,
     del_share_id
 } = getHeaderStoreData()
-const {
-    knowledgeList
-} = getKnowledgeStoreData()
 const {
     agentList,
 } = getAgentStoreData()
@@ -172,21 +155,6 @@ const labelColumns = ref<DataTableColumns>([
         render(row) {
             return <span>{row.model}:{row.parameters}</span>
         }
-		},
-		{
-				title: $t("知识库"),
-				key: "rag_list",
-				render(row: any) {
-						const ragList = row.rag_list.join(",")
-						return <div class="reg-wrapper">
-                <NTooltip>
-                    {{
-                        default: () => ragList,
-                        trigger: () => <div class="reg-content">{ragList}</div>
-                    }}
-                </NTooltip>
-            </div>
-				}
 		},
 		{
         title: $t("智能体"),
@@ -294,16 +262,6 @@ watch(shareShow, (val) => {
 
     .url-content {
         width: 260px;
-        @include base.single-line-ellipsis
-    }
-}
-:deep(.reg-wrapper) {
-    display: flex;
-    justify-content: flex-start;
-    gap: 5px;
-
-    .reg-content {
-        width: 120px;
         @include base.single-line-ellipsis
     }
 }

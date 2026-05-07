@@ -1,5 +1,5 @@
 <template>
-    <div class="header-wrapper" v-if="!activeKnowledge || (siderWidth == 0 && knowledgeSiderWidth == 0)">
+    <div class="header-wrapper">
         <div class="comunication-tit flex justify-between items-center">
             <div class="flex items-center">
                 <i class="i-common:expand w-18 h-18 mr-10 cursor-pointer" v-if="isFold" @click="doExpand"></i>
@@ -23,7 +23,6 @@ import { doExpand } from "@/views/Header/controller"
 import { useI18n } from "vue-i18n";
 import { getHeaderStoreData } from "./store";
 import { getSiderStoreData } from "../Sider/store";
-import { getKnowledgeStoreData } from "../KnowleadgeStore/store";
 import { getThirdPartyApiStoreData } from "../ThirdPartyApi/store";
 import { getChatToolsStoreData } from "../ChatTools/store";
 import { getRandomStringFromSet } from "@/utils/tools";
@@ -32,7 +31,6 @@ const { t: $t } = useI18n()
 
 const { currentModel, multipleModelList } = getHeaderStoreData()
 const { isFold, siderWidth, } = getSiderStoreData()
-const { activeKnowledge, knowledgeSiderWidth, } = getKnowledgeStoreData()
 const { currentSupplierName } = getThirdPartyApiStoreData()
 const { compare_id } = getChatToolsStoreData()
 

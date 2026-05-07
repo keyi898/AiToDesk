@@ -1,12 +1,10 @@
 import { logger } from 'ee-core/log';
 import { pub } from '../class/public';
 import * as path from 'path';
-import { parseDocument } from '../rag/doc_engins/doc';
 import { agentService } from './agent';
 import { ModelService, GetSupplierModels, getModelContextLength, setModelUsedTotal, getModelUsedTotalList } from '../service/model';
 
 import { getPromptForWeb } from '../search_engines/search';
-import { Rag } from '../rag/rag';
 import { Stream } from 'stream';
 import { MCPClient } from './mcp_client';
 
@@ -359,7 +357,6 @@ export class ChatService {
         // 读取上下文目录下的所有子目录
         const contextDirList = pub.readdir(contextPath);
         const contextList: object[] = [];
-        const ragPath = pub.get_data_path() + "/rag";
         // 遍历每个子目录
         for (const dir of contextDirList) {
             // 获取配置文件的完整路径
@@ -382,24 +379,9 @@ export class ChatService {
             }
 
             if (contextConfigObj.supplierName == undefined) {
-                contextConfigObj.supplierName = "ollama";
+            contextConfigObj.supplierName = "ollama";
             }
 
-            if (!contextConfigObj.rag_list) {
-                contextConfigObj.rag_list = [];
-            }
-
-            // 遍历知识库，移除不存在的知识库配置
-            let rag_list: string[] = [];
-            for (let ragName of contextConfigObj.rag_list) {
-                const ragDir = ragPath + "/" + ragName;
-                const ragConfigFilePath = path.resolve(ragDir, 'config.json');
-                if (!pub.file_exists(ragConfigFilePath)) {
-                    continue;
-                }
-                rag_list.push(ragName);
-            }
-            contextConfigObj.rag_list = rag_list;
             contextConfigObj.agent_info = null;
             if (contextConfigObj.agent_name) {
                 contextConfigObj.agent_info = agentService.get_agent_config(contextConfigObj.agent_name);

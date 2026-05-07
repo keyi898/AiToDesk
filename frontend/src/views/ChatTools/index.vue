@@ -1,5 +1,5 @@
 <template>
-    <div class="search-tools-wrapper" v-if="!activeKnowledge">
+    <div class="search-tools-wrapper">
         <div class="chat-mask" v-if="chatMask.status">
             <span>{{ chatMask.notice }}</span>
         </div>
@@ -43,19 +43,6 @@
                             {{ $t("支持上传文件、图片(最大不超过20MB), 支持PDF、DOC、TXT等格式") }}
                         </n-tooltip>
                     </div>
-                    <!-- 对话时选择知识库 -->
-                    <n-popover trigger="click">
-                        <template #trigger>
-                            <n-button :type="activeKnowledgeForChat.length ? 'primary' : 'default'" ghost
-                                style="height: 40px;" icon-placement="left" :focusable="false">
-                                <template #icon>
-                                    <i class="i-tdesign:folder"></i>
-                                </template>
-                                {{ $t("知识库") }}
-                            </n-button>
-                        </template>
-                        <KnowledgeChoosePanel />
-                    </n-popover>
                     <!-- 选择tools工具 -->
                     <n-popover trigger="click">
                         <template #trigger>
@@ -90,10 +77,8 @@
 <script setup lang="ts">
 import Filelist from "@/views/ChatTools/components/FileList.vue";
 import { getChatToolsStoreData } from "./store";
-import { getKnowledgeStoreData } from "../KnowleadgeStore/store";
 import { getSoftSettingsStoreData } from "../SoftSettings/store";
 import { getChatContentStoreData } from "../ChatContent/store";
-import KnowledgeChoosePanel from "@/views/KnowleadgeStore/components/KnowledgeChoosePanel.vue";
 import ToolsChoosePanel from "./components/ToolsChoosePanel.vue";
 import { eventBUS } from "@/views/Home/utils/tools";
 import { useI18n } from "vue-i18n";
@@ -123,10 +108,6 @@ const {
     mcpListChoosed
 } = getChatToolsStoreData()
 
-const {
-    activeKnowledge,
-    activeKnowledgeForChat,
-} = getKnowledgeStoreData()
 const {
     isInChat,
 } = getChatContentStoreData()

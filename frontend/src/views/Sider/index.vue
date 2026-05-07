@@ -39,20 +39,6 @@
             <div class="sider-divider"></div>
         </div>
 
-        <div class="recent-header">
-            <span class=" text-[var(--bt-notice-text-color)] flex justify-start items-center ml-10">{{ $t("知识库")
-                }}</span>
-        </div>
-
-        <!-- 知识库 -->
-        <div class="sider-wrapper" style="overflow: hidden; gap:10px">
-            <n-scrollbar :style="{ height: '100%' }">
-                <div class="sider-top">
-                    <KnowledgeList />
-                </div>
-            </n-scrollbar>
-        </div>
-
         <!-- 侧边栏下部分 -->
         <div class="sider-bottom">
             <div class="sider-divider"></div>
@@ -69,9 +55,6 @@
     <!-- 智能体 -->
     <Agent />
 
-    <!-- 优化知识库进度 -->
-    <OptimizeProgress />
-
     <!-- 清空对话 -->
     <CleanChatsList />
 </template>
@@ -79,9 +62,7 @@
 <script setup lang="ts">
 import CleanChatsList from "./components/CleanChatsList.vue";
 import { getGlobalStore } from "@/stores/global"
-import OptimizeProgress from "@/views/KnowleadgeStore/components/OptimizeProgress.vue"
 import ChatList from "./components/ChatList.vue"
-import KnowledgeList from "./components/KnowledgeList.vue";
 import SiderBottom from "./components/SiderBottom.vue";
 import RemoveChatConfirm from "./components/RemoveChatConfirm.vue";
 import ModifyChatConfirm from "./components/ModifyChatConfirm.vue";

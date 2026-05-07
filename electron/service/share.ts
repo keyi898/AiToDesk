@@ -7,7 +7,6 @@ import { shareChatService } from './share_chat';
 import { ChatContext, ChatHistory } from './chat';
 import ChatController from '../controller/chat';
 import {getPromptForWeb} from '../search_engines/search'
-import { Rag } from '../rag/rag';
 import { ModelService,GetSupplierModels,getModelContextLength } from '../service/model';
 import { ToChatService } from './tochat';
 // 常量定义
@@ -118,13 +117,12 @@ class ShareService {
 
     
     // 聊天
-    async chat(conn: tls.TLSSocket, data: {supplierName?:string; modelStr: string; content: string; shareInfo: any; contextId: string;search?:string,regenerate_id?:string,images?:string[],doc_files?:string[],rag_list?:string[],agent_name?:string,mcp_servers?:string[] },msgId:number) {
-        let { supplierName, modelStr, content, shareInfo, contextId,search,regenerate_id,doc_files,images,rag_list,agent_name,mcp_servers } = data;
+    async chat(conn: tls.TLSSocket, data: {supplierName?:string; modelStr: string; content: string; shareInfo: any; contextId: string;search?:string,regenerate_id?:string,images?:string[],doc_files?:string[],agent_name?:string,mcp_servers?:string[] },msgId:number) {
+        let { supplierName, modelStr, content, shareInfo, contextId,search,regenerate_id,doc_files,images,agent_name,mcp_servers } = data;
         const shareId = shareInfo.share_id;
         supplierName = supplierName || 'ollama';
         doc_files = doc_files || [];
         images = images || [];
-        rag_list = rag_list || [];
         agent_name = agent_name || '';
         const isOllama = supplierName === 'ollama';
 
@@ -206,38 +204,6 @@ class ShareService {
         shareChatService.save_chat_history(shareId, contextId, chatHistory, chatHistoryRes, modelInfo.contextLength,regenerate_id);
         chatHistoryRes.content = '';
 
-
-        // 先使用知识库检索
-        if(rag_list) {
-            // 保存RAG列表到会话配置
-            shareChatService.update_chat_config(shareId,contextId, "rag_list", rag_list);
-
-            if(rag_list.length > 0) {
-                let {userPrompt,systemPrompt,searchResultList,query } = await new Rag().searchAndSuggest(supplierName,modelStr, content, history[history.length - 1].doc_files, agent_name, [], rag_list);
-                chatHistoryRes.search_query = query;
-                chatHistoryRes.search_type = "[RAG]:" + rag_list.join(",");
-                chatHistoryRes.search_result = searchResultList;
-    
-                if (systemPrompt) {
-                    // 将系统提示词插入到对话历史的第一条
-                    history.unshift({
-                        role: 'system',
-                        content: systemPrompt
-                    });
-                }
-    
-                if (userPrompt) {
-                    // 将用户提示词替换历史的最后一条
-                    history[history.length - 1].content = userPrompt;
-                }
-
-                // 知识库有召回结果的情况下，不再进行联网搜索
-                if(searchResultList.length > 0) {
-                    search = ''
-                }
-
-            }
-        }
 
         if (search) {
             // 获取上一次的对话历史
@@ -576,7 +542,6 @@ ${pub.lang('内容')}: ${doc_file}
                         regenerate_id:shareData.regenerate_id,
                         doc_files:shareData.doc_files || [],
                         images:shareData.images || [],
-                        rag_list:shareInfo.rag_list || [],
                         mcp_servers:shareInfo.mcp_servers || [],
                     };
                     this.chat(conn, args, shareData.msgId);

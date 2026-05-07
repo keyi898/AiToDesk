@@ -1,5 +1,5 @@
 <template>
-    <div class="content-wrapper" ref="contentWrapper" v-if="!activeKnowledge">
+    <div class="content-wrapper" ref="contentWrapper">
         <!-- 多模型对话 -->
         <div id="test">
             <n-card class="multiple-model-list" segmented v-if="multipleModelList.length > 0">
@@ -50,13 +50,7 @@
     <!-- 分享弹窗 -->
     <Share />
 
-    <!-- 文档预览 -->
-    <div class="doc-content" v-if="activeKnowledge">
-        <n-scrollbar>
-            <MarkdownRender :content="docContent" />
-        </n-scrollbar>
-    </div>
-</template>
+
 
 <script setup lang="tsx">
 import ChooseModel from '../Header/components/ChooseModel.vue';
@@ -65,11 +59,8 @@ import Question from "@/views/Question/index.vue"
 import Answer from "@/views/Answer/index.vue"
 import ChatTools from "@/views/ChatTools/index.vue"
 import { getChatContentStoreData } from './store';
-import { getKnowledgeStoreData } from '../KnowleadgeStore/store';
 import { mouseLeave, scrollCallback, scrollMove } from "@/views/ChatContent/controller"
 
-// 附件图标
-import MarkdownRender from "@/views/Answer/components/MarkdownRender.vue"
 import Share from "@/views/Header/components/Share.vue"
 import Settings from '@/views/Settings/index.vue';
 import { eventBUS } from '@/views/Home/utils/tools';
@@ -79,7 +70,6 @@ const moveFn = scrollMove()
 const questionAndAnswer = ref<any>("100%")
 const answerListWidth = ref("100%")
 const { chatHistory, scrollRef, contentWrapper } = getChatContentStoreData()
-const { activeKnowledge, docContent, } = getKnowledgeStoreData()
 const { multipleModelList } = getHeaderStoreData()
 const { compare_id } = getChatToolsStoreData()
 const questionAndAnswerHeight = ref("100%")
@@ -179,15 +169,7 @@ onMounted(() => {
 }
 
 
-.doc-content {
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    padding: 20px;
-}
-
-
-
+// 多模型选择面板
 
 // 多模型选择面板
 .multiple-model-list {
