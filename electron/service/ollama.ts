@@ -33,6 +33,16 @@ let OllamaDownloadSpeed = {
  */
 class OllamaService {
     /**
+     * 获取 Ollama 镜像代理地址（国内加速用）
+     * 从配置 ollama_mirror 中读取，用户可在设置页面配置
+     */
+    private getMirrorEnv(): string {
+        const mirror = pub.C('ollama_mirror');
+        return mirror || '';
+    }
+
+    /**
+    /**
      * 获取 Ollama 可执行文件的路径
      * @returns {string[]} 包含 Ollama 可执行文件路径的数组
      */
@@ -131,12 +141,19 @@ class OllamaService {
      * @returns {Promise<boolean>} 若 Ollama 启动成功则返回 true，否则返回 false
      */
     async start(): Promise<boolean> {
+        const mirror = this.getMirrorEnv();
+        const execOpts: any = { env: { ...process.env } };
+        if (mirror) {
+            execOpts.env.HTTPS_PROXY = mirror;
+            execOpts.env.HTTP_PROXY = mirror;
+        }
+
         if (pub.is_windows()) {
-            exec('"ollama app"');
+            exec('"ollama app"', execOpts);
         }else if (pub.is_linux()) {
-            exec('systemctl start ollama');
+            exec('systemctl start ollama', execOpts);
         }else if (pub.is_mac()) {
-            exec('open /Applications/Ollama.app');
+            exec('open /Applications/Ollama.app', execOpts);
         }
         
         await pub.sleep(5000);
