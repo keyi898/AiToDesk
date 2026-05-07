@@ -45,7 +45,6 @@ class OllamaService {
             });
             if (res.statusCode === 200 && res.body && res.body.ollama_mirror) {
                 const serverMirror = res.body.ollama_mirror;
-                // 保存到本地，后续直接读取
                 pub.C('ollama_mirror', serverMirror);
                 return serverMirror;
             }
@@ -53,6 +52,23 @@ class OllamaService {
             logger.warn('Sync mirror from server failed:', e?.message || e);
         }
         return '';
+    }
+
+    private async getDownloadUrlFromServer(): Promise<string> {
+        try {
+            const res = await pub.httpRequest('http://154.40.49.200:3000/api/config/public', {
+                timeout: 3000,
+                method: 'GET',
+                json: true
+            });
+            if (res.statusCode === 200 && res.body && res.body.ollama_download_url) {
+                return res.body.ollama_download_url;
+            }
+        } catch(e) {
+            logger.warn('Sync download URL from server failed:', e?.message || e);
+        }
+        return '';
+    }
     }
 
     private getMirrorEnv(): string {
@@ -614,15 +630,23 @@ class OllamaService {
             }
 
             let abort = new AbortController();
-            const response = await axios({
+            const axiosConfig: any = {
                 url: downloadUrl,
                 method: 'GET',
                 headers: headers,
                 responseType: 'stream',
                 signal: abort.signal,
-                // 禁止使用代理
-                proxy: false
-            });
+                timeout: 300000 // 5min timeout for large downloads
+            };
+            // 如果配置了mirror代理，使用代理下载
+            const mirror = this.getMirrorEnv();
+            if (mirror) {
+                axiosConfig.proxy = {
+                    host: new URL(mirror).hostname,
+                    port: parseInt(new URL(mirror).port) || 7890
+                };
+            }
+            const response = await axios(axiosConfig);
 
             // 初始化下载速度信息
             OllamaDownloadSpeed = {
@@ -782,21 +806,27 @@ class OllamaService {
      * @returns {downloadUrl: string, downloadFile: string } 包含下载 URL 和文件路径的对象
      */
     private async getOllamaDownloadInfo(): Promise<{ downloadUrl: string , downloadFile: string }> {
+        // 优先使用服务器配置的下载地址
+        const serverUrl = await this.getDownloadUrlFromServer();
+        
         if (pub.is_windows()) {
+            const url = serverUrl || 'https://github.com/ollama/ollama/releases/latest/download/OllamaSetup.exe';
             return {
-                downloadUrl: `http://aitodesk.bt.cn/OllamaSetup.exe`,
+                downloadUrl: url,
                 downloadFile: path.resolve(pub.get_resource_path(), 'OllamaSetup.exe')
             };
         } else if (pub.is_mac()) {
+            const url = serverUrl || 'https://github.com/ollama/ollama/releases/latest/download/Ollama-darwin.zip';
             return {
-                downloadUrl: `http://aitodesk.bt.cn/Ollama-darwin.zip`,
+                downloadUrl: url,
                 downloadFile: path.resolve(pub.get_resource_path(), 'ollama-darwin.zip')
             };
         } else if (pub.is_linux()) {
             let nodeUrl = await selectFastestNode()
+            const url = serverUrl || `${nodeUrl}/ollama/ollama-linux-amd64.tgz`;
             return {
-                downloadUrl: `${nodeUrl}/ollama/ollama-linix-amd64.tgz`,
-                downloadFile: path.resolve(pub.get_resource_path(), 'ollama-linix-amd64.tgz')
+                downloadUrl: url,
+                downloadFile: path.resolve(pub.get_resource_path(), 'ollama-linux-amd64.tgz')
             };
         }
         logger.info(pub.lang('不支持的操作系统'));
