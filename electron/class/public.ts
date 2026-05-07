@@ -1060,7 +1060,7 @@ class Public {
         return totalSize;
     }
 
-
+}
 
 const pub = new Public();
 export{ pub,Public };
